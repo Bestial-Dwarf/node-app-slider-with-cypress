@@ -5,7 +5,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.25.0.0/16
+        - subnet: 127.0.0.1/16
 
 services:
   app:
@@ -13,10 +13,10 @@ services:
       context: .
       dockerfile: docker/node/Dockerfile
     ports:
-      - "3000:3000"
+      - "5501:5501"
     networks:
       my_network:
-        ipv4_address: 172.25.0.2  # Define the static IP address for the app service
+        ipv4_address: 127.0.0.1  # Define the static IP address for the app service
 
   cypress:
     image: cypress/included:latest
@@ -27,6 +27,6 @@ services:
     depends_on:
       - app
     environment:
-      - CYPRESS_baseUrl=http://172.25.0.2:3000  # Update the baseUrl to use the static IP address
+      - CYPRESS_baseUrl=http://127.0.0.1:5501  # Update the baseUrl to use the static IP address
     networks:
       - my_network
